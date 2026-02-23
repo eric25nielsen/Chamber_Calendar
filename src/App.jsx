@@ -5,6 +5,7 @@ const ChamberCalendarApp = () => {
   const [chambers, setChambers] = useState([]);
   const [events, setEvents] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDay, setSelectedDay] = useState(null);
   const [view, setView] = useState('calendar');
   const [showAddChamber, setShowAddChamber] = useState(false);
   const [newChamber, setNewChamber] = useState({ name: '', location: '', website: '', enabled: true });
@@ -420,11 +421,14 @@ const ChamberCalendarApp = () => {
     return (
       <div style={{
         minHeight: '100vh',
+        height: '100vh',
+        width: '100vw',
         background: 'linear-gradient(135deg, #0F172A 0%, #1E293B 100%)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        color: '#F8FAFC'
+        color: '#F8FAFC',
+        margin: 0
       }}>
         <div style={{ textAlign: 'center' }}>
           <Calendar size={48} style={{ animation: 'pulse 2s infinite', margin: '0 auto 16px' }} />
@@ -437,16 +441,22 @@ const ChamberCalendarApp = () => {
   return (
     <div style={{
       minHeight: '100vh',
+      height: '100vh',
+      width: '100vw',
       background: 'linear-gradient(135deg, #0F172A 0%, #1E293B 100%)',
       fontFamily: "'Inter', system-ui, sans-serif",
       color: '#F8FAFC',
-      padding: '24px'
+      margin: 0,
+      padding: '24px',
+      boxSizing: 'border-box'
     }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap');
+        html, body { margin: 0; padding: 0; height: 100%; width: 100%; }
+        #root { height: 100%; width: 100%; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes pulse { 0%,100% { opacity:1 } 50% { opacity:0.5 } }
-        .calendar-day { transition: all 0.2s ease; }
+        .calendar-day { transition: all 0.2s ease; cursor: pointer; }
         .calendar-day:hover { background: rgba(248,250,252,0.1); transform: scale(1.05); }
         .event-dot { width:6px; height:6px; border-radius:50%; display:inline-block; margin:0 2px; }
         .btn { transition: all 0.2s ease; border:none; cursor:pointer; font-family:'Inter',sans-serif; }
@@ -455,7 +465,7 @@ const ChamberCalendarApp = () => {
         .chamber-card:hover { transform:translateX(4px); }
       `}</style>
 
-      <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+      <div style={{ maxWidth: '1400px', margin: '0 auto', height: '100%' }}>
         <div style={{ marginBottom: '32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
             <h1 style={{
@@ -490,64 +500,127 @@ const ChamberCalendarApp = () => {
         </div>
 
         {view === 'calendar' && (
-          <div style={{ background: 'rgba(15,23,42,0.6)', backdropFilter: 'blur(20px)', borderRadius: '24px', padding: '32px', border: '1px solid rgba(248,250,252,0.1)', boxShadow: '0 20px 40px rgba(0,0,0,0.3)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
-              <button onClick={() => changeMonth(-1)} className="btn" style={{ background: 'rgba(248,250,252,0.1)', padding: '12px', borderRadius: '12px', color: '#F8FAFC' }}>
-                <ChevronLeft size={24} />
-              </button>
-              <h2 style={{ fontSize: '32px', fontWeight: 700, fontFamily: "'Playfair Display', serif", margin: 0 }}>
-                {selectedDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
-              </h2>
-              <button onClick={() => changeMonth(1)} className="btn" style={{ background: 'rgba(248,250,252,0.1)', padding: '12px', borderRadius: '12px', color: '#F8FAFC' }}>
-                <ChevronRight size={24} />
-              </button>
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '8px' }}>
-              {['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(d => (
-                <div key={d} style={{ textAlign: 'center', fontWeight: 600, color: '#37b4db', padding: '12px', fontSize: '14px', textTransform: 'uppercase' }}>
-                  {d}
-                </div>
-              ))}
-              {getDaysInMonth(selectedDate).map((date, i) => {
-                const dayEvents = date ? getEventsForDate(date) : [];
-                const isToday = date && date.toDateString() === new Date().toDateString();
-                return (
-                  <div
-                    key={i}
-                    className="calendar-day"
-                    style={{
-                      minHeight: '100px',
-                      background: date ? isToday ? 'linear-gradient(135deg, rgba(26,66,138,0.2), rgba(55,180,219,0.2))' : 'rgba(248,250,252,0.05)' : 'transparent',
-                      borderRadius: '12px',
-                      padding: '12px',
-                      border: isToday ? '2px solid #37b4db' : '1px solid rgba(248,250,252,0.1)'
-                    }}
-                  >
-                    {date && (
-                      <>
-                        <div style={{ fontSize: '18px', fontWeight: 600, marginBottom: '8px', color: isToday ? '#37b4db' : '#F8FAFC' }}>
-                          {date.getDate()}
-                        </div>
-                        {dayEvents.length > 0 && (
-                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', marginTop: '8px' }}>
-                            {dayEvents.slice(0,3).map(e => (
-                              <div
-                                key={e.id}
-                                className="event-dot"
-                                style={{ background: getEventTypeColor(e.type), boxShadow: `0 0 8px ${getEventTypeColor(e.type)}80` }}
-                                title={e.title}
-                              />
-                            ))}
-                            {dayEvents.length > 3 && <span style={{ fontSize: '10px', color: '#94A3B8' }}>+{dayEvents.length - 3}</span>}
-                          </div>
-                        )}
-                      </>
-                    )}
+          <>
+            <div style={{ background: 'rgba(15,23,42,0.6)', backdropFilter: 'blur(20px)', borderRadius: '24px', padding: '32px', border: '1px solid rgba(248,250,252,0.1)', boxShadow: '0 20px 40px rgba(0,0,0,0.3)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
+                <button onClick={() => changeMonth(-1)} className="btn" style={{ background: 'rgba(248,250,252,0.1)', padding: '12px', borderRadius: '12px', color: '#F8FAFC' }}>
+                  <ChevronLeft size={24} />
+                </button>
+                <h2 style={{ fontSize: '32px', fontWeight: 700, fontFamily: "'Playfair Display', serif", margin: 0 }}>
+                  {selectedDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+                </h2>
+                <button onClick={() => changeMonth(1)} className="btn" style={{ background: 'rgba(248,250,252,0.1)', padding: '12px', borderRadius: '12px', color: '#F8FAFC' }}>
+                  <ChevronRight size={24} />
+                </button>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '8px' }}>
+                {['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(d => (
+                  <div key={d} style={{ textAlign: 'center', fontWeight: 600, color: '#37b4db', padding: '12px', fontSize: '14px', textTransform: 'uppercase' }}>
+                    {d}
                   </div>
-                );
-              })}
+                ))}
+                {getDaysInMonth(selectedDate).map((date, i) => {
+                  const dayEvents = date ? getEventsForDate(date) : [];
+                  const isToday = date && date.toDateString() === new Date().toDateString();
+                  return (
+                    <div
+                      key={i}
+                      className="calendar-day"
+                      style={{
+                        minHeight: '100px',
+                        background: date ? isToday ? 'linear-gradient(135deg, rgba(26,66,138,0.2), rgba(55,180,219,0.2))' : 'rgba(248,250,252,0.05)' : 'transparent',
+                        borderRadius: '12px',
+                        padding: '12px',
+                        border: isToday ? '2px solid #37b4db' : '1px solid rgba(248,250,252,0.1)',
+                        cursor: date ? 'pointer' : 'default'
+                      }}
+                      onClick={() => date && setSelectedDay(date)}
+                    >
+                      {date && (
+                        <>
+                          <div style={{ fontSize: '18px', fontWeight: 600, marginBottom: '8px', color: isToday ? '#37b4db' : '#F8FAFC' }}>
+                            {date.getDate()}
+                          </div>
+                          {dayEvents.length > 0 && (
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', marginTop: '8px' }}>
+                              {dayEvents.slice(0,3).map(e => (
+                                <div
+                                  key={e.id}
+                                  className="event-dot"
+                                  style={{ background: getEventTypeColor(e.type), boxShadow: `0 0 8px ${getEventTypeColor(e.type)}80` }}
+                                  title={e.title}
+                                />
+                              ))}
+                              {dayEvents.length > 3 && <span style={{ fontSize: '10px', color: '#94A3B8' }}>+{dayEvents.length - 3}</span>}
+                            </div>
+                          )}
+                        </>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-          </div>
+
+            {selectedDay && (
+              <div style={{
+                marginTop: '32px',
+                background: 'rgba(15,23,42,0.6)',
+                backdropFilter: 'blur(20px)',
+                borderRadius: '24px',
+                padding: '24px',
+                border: '1px solid rgba(248,250,252,0.1)',
+                boxShadow: '0 20px 40px rgba(0,0,0,0.3)'
+              }}>
+                <h3 style={{ margin: '0 0 16px', fontSize: '24px' }}>
+                  Events on {selectedDay.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
+                </h3>
+                {getEventsForDate(selectedDay).length === 0 ? (
+                  <p style={{ color: '#94A3B8' }}>No events scheduled for this day.</p>
+                ) : (
+                  <div style={{ display: 'grid', gap: '16px' }}>
+                    {getEventsForDate(selectedDay).map(e => {
+                      const chamber = chambers.find(c => c.id === e.chamberId);
+                      return (
+                        <div key={e.id} style={{
+                          background: 'rgba(248,250,252,0.05)',
+                          borderRadius: '12px',
+                          padding: '16px',
+                          borderLeft: `4px solid ${getEventTypeColor(e.type)}`
+                        }}>
+                          <strong>{e.title}</strong>
+                          <div style={{ color: '#94A3B8', fontSize: '14px', marginTop: '8px' }}>
+                            {e.date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })} • {e.location}
+                          </div>
+                          <p style={{ marginTop: '8px' }}>{e.description}</p>
+                          {chamber && <div style={{ marginTop: '8px', color: '#37b4db' }}>Hosted by: {chamber.name}</div>}
+                          {e.link && (
+                            <a href={e.link} target="_blank" rel="noopener noreferrer" style={{ color: '#37b4db', display: 'block', marginTop: '8px' }}>
+                              View details
+                            </a>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+                <button
+                  onClick={() => setSelectedDay(null)}
+                  style={{
+                    marginTop: '16px',
+                    padding: '8px 16px',
+                    background: 'rgba(220,38,38,0.2)',
+                    color: '#DC2626',
+                    border: 'none',
+                    borderRadius: '8px',
+                    cursor: 'pointer'
+                  }}
+                >
+                  Close
+                </button>
+              </div>
+            )}
+          </>
         )}
 
         {view === 'list' && (
@@ -777,7 +850,6 @@ const ChamberCalendarApp = () => {
                 ))}
               </div>
 
-              {/* Fixed: wrapped the two buttons in a fragment */}
               <>
                 <button
                   onClick={() => setShowAddEvent(true)}
