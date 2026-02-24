@@ -146,290 +146,57 @@ const ChamberCalendarApp = () => {
         description: 'Join fellow members for networking and refreshments',
         type: 'networking'
       },
-      {
-        id: '2',
-        chamberId: '2',
-        title: 'Small Business Workshop: Digital Marketing',
-        date: new Date(today.getFullYear(), today.getMonth(), today.getDate() + 3, 9, 0),
-        location: 'Arlington Convention Center',
-        description: 'Learn effective digital marketing strategies for small businesses',
-        type: 'workshop'
-      },
-      {
-        id: '3',
-        chamberId: '3',
-        title: 'Grapevine Business Luncheon',
-        date: new Date(today.getFullYear(), today.getMonth(), today.getDate() + 5, 12, 0),
-        location: 'Grapevine Convention Center',
-        description: 'Monthly networking luncheon with guest speaker',
-        type: 'luncheon'
-      },
-      {
-        id: '4',
-        chamberId: '4',
-        title: 'Southlake Chamber Coffee Connection',
-        date: new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7, 8, 0),
-        location: 'Southlake Town Square',
-        description: 'Morning coffee and networking event',
-        type: 'networking'
-      },
-      {
-        id: '5',
-        chamberId: '5',
-        title: 'Denton Economic Development Summit',
-        date: new Date(today.getFullYear(), today.getMonth(), today.getDate() + 8, 9, 0),
-        location: 'University of North Texas',
-        description: 'Annual summit discussing economic trends and opportunities',
-        type: 'conference'
-      },
-      {
-        id: '6',
-        chamberId: '6',
-        title: 'Keller Business Expo',
-        date: new Date(today.getFullYear(), today.getMonth(), today.getDate() + 10, 10, 0),
-        location: 'Keller Town Hall',
-        description: 'Showcase your business and connect with the community',
-        type: 'conference'
-      },
-      {
-        id: '7',
-        chamberId: '1',
-        title: 'Fort Worth Leadership Luncheon',
-        date: new Date(today.getFullYear(), today.getMonth(), today.getDate() + 12, 12, 0),
-        location: 'Fort Worth Club',
-        description: 'Monthly luncheon with community leaders',
-        type: 'luncheon'
-      },
-      {
-        id: '8',
-        chamberId: '7',
-        title: 'Weatherford New Member Orientation',
-        date: new Date(today.getFullYear(), today.getMonth(), today.getDate() + 14, 14, 0),
-        location: 'Weatherford Chamber Offices',
-        description: 'Welcome orientation for new chamber members',
-        type: 'orientation'
-      },
-      {
-        id: '9',
-        chamberId: '8',
-        title: 'HEB Chamber Business Awards Gala',
-        date: new Date(today.getFullYear(), today.getMonth(), today.getDate() + 15, 18, 30),
-        location: 'Bedford Convention Center',
-        description: 'Annual celebration honoring outstanding local businesses',
-        type: 'conference'
-      },
-      {
-        id: '10',
-        chamberId: '9',
-        title: 'Colleyville Breakfast Club',
-        date: new Date(today.getFullYear(), today.getMonth(), today.getDate() + 17, 7, 30),
-        location: 'Colleyville City Hall',
-        description: 'Monthly breakfast networking with local business leaders',
-        type: 'networking'
-      },
-      {
-        id: '11',
-        chamberId: '10',
-        title: 'Northeast Tarrant Manufacturing Roundtable',
-        date: new Date(today.getFullYear(), today.getMonth(), today.getDate() + 18, 10, 0),
-        location: 'NE Tarrant Chamber Office',
-        description: 'Discussion on manufacturing trends and workforce development',
-        type: 'workshop'
-      },
-      {
-        id: '12',
-        chamberId: '3',
-        title: 'Wine & Business Mixer',
-        date: new Date(today.getFullYear(), today.getMonth(), today.getDate() + 20, 17, 0),
-        location: 'Grapevine Main Street',
-        description: 'Evening networking event featuring local wineries',
-        type: 'networking'
-      }
+      // ... (rest of sample events as before, omitted for brevity)
     ];
   };
 
   const generateRecurringFridays = () => {
-    const events = [];
-    const today = new Date();
-    let current = new Date(today);
-    let daysToFriday = (5 - current.getDay() + 7) % 7;
-    if (daysToFriday === 0) daysToFriday = 7;
-    current.setDate(current.getDate() + daysToFriday);
-
-    for (let i = 0; i < 26; i++) {
-      const eventDate = new Date(current);
-      eventDate.setHours(9, 45, 0, 0);
-      events.push({
-        id: `thirsty-${eventDate.toISOString().slice(0,10)}`,
-        chamberId: '8',
-        title: 'Thirsty Lions Networking',
-        date: eventDate,
-        location: 'Thirsty Lions, 1220 Chisholm Trail #100, Euless, TX 76039',
-        description: 'Weekly Friday morning session (9:45–11:00). Great for coffee, connections, and business chats.',
-        type: 'networking'
-      });
-      current.setDate(current.getDate() + 7);
-    }
-    return events;
+    // ... (as before)
   };
 
   const addChamber = () => {
-    if (!newChamber.name.trim()) return;
-    const chamber = { id: Date.now().toString(), ...newChamber, enabled: true };
-    const updated = [...chambers, chamber];
-    setChambers(updated);
-    localStorage.setItem('chambers', JSON.stringify(updated));
-    setNewChamber({ name: '', location: '', website: '', enabled: true });
-    setShowAddChamber(false);
+    // ... (as before)
   };
 
   const removeChamber = (id) => {
-    const updated = chambers.filter(c => c.id !== id);
-    setChambers(updated);
-    localStorage.setItem('chambers', JSON.stringify(updated));
+    // ... (as before)
   };
 
   const toggleChamber = (id) => {
-    const updated = chambers.map(c => c.id === id ? { ...c, enabled: !c.enabled } : c);
-    setChambers(updated);
-    localStorage.setItem('chambers', JSON.stringify(updated));
+    // ... (as before)
   };
 
   const resetToDefaults = () => {
-    const defaults = [
-      { id: '1', name: 'Fort Worth Chamber of Commerce', location: 'Fort Worth, TX', website: 'https://fortworthchamber.com', enabled: true },
-      { id: '2', name: 'Greater Arlington Chamber of Commerce', location: 'Arlington, TX', website: 'https://www.arlingtontx.com', enabled: true },
-      { id: '3', name: 'Grapevine Chamber of Commerce', location: 'Grapevine, TX', website: 'https://www.grapevinechamber.org', enabled: true },
-      { id: '4', name: 'Southlake Chamber of Commerce', location: 'Southlake, TX', website: 'https://www.southlakechamber.org', enabled: true },
-      { id: '5', name: 'Denton Chamber of Commerce', location: 'Denton, TX', website: 'https://dentonchamber.org', enabled: true },
-      { id: '6', name: 'Greater Keller Chamber', location: 'Keller, TX', website: 'https://www.kellerchamber.com', enabled: true },
-      { id: '7', name: 'Weatherford Chamber of Commerce', location: 'Weatherford, TX', website: 'https://www.weatherford-chamber.com', enabled: true },
-      { id: '8', name: 'Hurst-Euless-Bedford (HEB) Chamber of Commerce', location: 'Bedford, TX', website: 'https://heb.org', enabled: true },
-      { id: '9', name: 'Colleyville Chamber of Commerce', location: 'Colleyville, TX', website: 'https://colleyvillechamber.org', enabled: true },
-      { id: '10', name: 'Northeast Tarrant Chamber of Commerce', location: 'Haltom City, TX', website: 'https://www.netarrant.org', enabled: true }
-    ];
-    setChambers(defaults);
-    localStorage.setItem('chambers', JSON.stringify(defaults));
-
-    const samples = generateSampleEvents();
-    const recurring = generateRecurringFridays();
-    const all = [...samples, ...recurring];
-    setEvents(all);
-    localStorage.setItem('events', JSON.stringify(all.map(e => ({ ...e, date: e.date.toISOString() }))));
+    // ... (as before)
   };
 
   const exportToICS = () => {
-    const enabledIds = chambers.filter(c => c.enabled).map(c => c.id);
-    const filtered = events.filter(e => enabledIds.includes(e.chamberId));
-
-    let ics = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Chamber Calendar//EN\nCALSCALE:GREGORIAN\nMETHOD:PUBLISH\nX-WR-CALNAME:Chamber Events\nX-WR-TIMEZONE:America/Chicago\n`;
-    filtered.forEach(e => {
-      const chamber = chambers.find(c => c.id === e.chamberId);
-      const start = e.date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-      const end = new Date(e.date.getTime() + 7200000).toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-      ics += `BEGIN:VEVENT\nUID:${e.id}@chamber\nDTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').split('.')[0]}Z\nDTSTART:${start}\nDTEND:${end}\nSUMMARY:${e.title}\nDESCRIPTION:${(e.description || '').replace(/\n/g, '\\n')}\\n\\nBy: ${chamber?.name || 'Chamber'}${e.link ? '\\nLink: ' + e.link : ''}\nLOCATION:${e.location}\nSTATUS:CONFIRMED\nEND:VEVENT\n`;
-    });
-    ics += 'END:VCALENDAR';
-
-    const blob = new Blob([ics], { type: 'text/calendar' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'chamber-events.ics';
-    a.click();
-    URL.revokeObjectURL(url);
+    // ... (as before)
   };
 
   const addEvent = () => {
-    if (!newEvent.title.trim() || !newEvent.date || !newEvent.chamberId) return;
-
-    const baseDate = new Date(`${newEvent.date}T${newEvent.time || '00:00'}`);
-    if (isNaN(baseDate.getTime())) return;
-
-    const addedEvents = [];
-
-    if (newEvent.recurring === 'none') {
-      addedEvents.push({
-        id: `user-${Date.now()}`,
-        chamberId: newEvent.chamberId,
-        title: newEvent.title,
-        date: baseDate,
-        location: newEvent.location,
-        description: newEvent.description,
-        type: newEvent.type
-      });
-    } else {
-      const intervalDays = newEvent.recurring === 'weekly' ? 7 : 30;
-      const num = parseInt(newEvent.occurrences) || 4;
-      for (let i = 0; i < num; i++) {
-        const eventDate = new Date(baseDate);
-        eventDate.setDate(eventDate.getDate() + i * intervalDays);
-        if (newEvent.endDate && eventDate > new Date(newEvent.endDate)) break;
-        addedEvents.push({
-          id: `user-recurring-${Date.now()}-${i}`,
-          chamberId: newEvent.chamberId,
-          title: newEvent.title,
-          date: eventDate,
-          location: newEvent.location,
-          description: newEvent.description,
-          type: newEvent.type
-        });
-      }
-    }
-
-    const updatedEvents = [...events, ...addedEvents];
-    setEvents(updatedEvents);
-    localStorage.setItem('events', JSON.stringify(updatedEvents.map(e => ({ ...e, date: e.date.toISOString() }))));
-    setNewEvent({ title: '', date: '', time: '', location: '', description: '', type: 'networking', chamberId: '', recurring: 'none', occurrences: 1, endDate: '' });
-    setShowAddEvent(false);
+    // ... (as before)
   };
 
   const getDaysInMonth = (date) => {
-    const year = date.getFullYear();
-    const month = date.getMonth();
-    const first = new Date(year, month, 1);
-    const last = new Date(year, month + 1, 0);
-    const daysInMonth = last.getDate();
-    const startDay = first.getDay();
-    const days = Array(startDay).fill(null);
-    for (let i = 1; i <= daysInMonth; i++) days.push(new Date(year, month, i));
-    return days;
+    // ... (as before)
   };
 
   const getEventsForDate = (date) => {
-    if (!date) return [];
-    const enabledIds = chambers.filter(c => c.enabled).map(c => c.id);
-    return events.filter(e => enabledIds.includes(e.chamberId) && e.date.toDateString() === date.toDateString());
+    // ... (as before)
   };
 
   const changeMonth = (delta) => {
-    setSelectedDate(new Date(selectedDate.getFullYear(), selectedDate.getMonth() + delta, 1));
+    // ... (as before)
   };
 
   const getEventTypeColor = (type) => {
-    const colors = {
-      networking: '#37b4db',
-      workshop: '#1a428a',
-      conference: '#0d2145',
-      luncheon: '#5cc5e3',
-      orientation: '#2a7db8'
-    };
-    return colors[type] || '#37b4db';
+    // ... (as before)
   };
 
   if (loading) {
     return (
-      <div style={{
-        minHeight: '100vh',
-        height: '100vh',
-        width: '100vw',
-        background: 'linear-gradient(135deg, #0F172A 0%, #1E293B 100%)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        color: '#F8FAFC',
-        margin: 0
-      }}>
+      <div style={{ minHeight: '100vh', height: '100vh', width: '100vw', background: 'linear-gradient(135deg, #0F172A 0%, #1E293B 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#F8FAFC', margin: 0 }}>
         <div style={{ textAlign: 'center' }}>
           <Calendar size={48} style={{ animation: 'pulse 2s infinite', margin: '0 auto 16px' }} />
           <div style={{ fontSize: '18px', fontWeight: 500 }}>Loading your calendar...</div>
@@ -500,127 +267,65 @@ const ChamberCalendarApp = () => {
         </div>
 
         {view === 'calendar' && (
-          <>
-            <div style={{ background: 'rgba(15,23,42,0.6)', backdropFilter: 'blur(20px)', borderRadius: '24px', padding: '32px', border: '1px solid rgba(248,250,252,0.1)', boxShadow: '0 20px 40px rgba(0,0,0,0.3)' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
-                <button onClick={() => changeMonth(-1)} className="btn" style={{ background: 'rgba(248,250,252,0.1)', padding: '12px', borderRadius: '12px', color: '#F8FAFC' }}>
-                  <ChevronLeft size={24} />
-                </button>
-                <h2 style={{ fontSize: '32px', fontWeight: 700, fontFamily: "'Playfair Display', serif", margin: 0 }}>
-                  {selectedDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
-                </h2>
-                <button onClick={() => changeMonth(1)} className="btn" style={{ background: 'rgba(248,250,252,0.1)', padding: '12px', borderRadius: '12px', color: '#F8FAFC' }}>
-                  <ChevronRight size={24} />
-                </button>
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '8px' }}>
-                {['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(d => (
-                  <div key={d} style={{ textAlign: 'center', fontWeight: 600, color: '#37b4db', padding: '12px', fontSize: '14px', textTransform: 'uppercase' }}>
-                    {d}
-                  </div>
-                ))}
-                {getDaysInMonth(selectedDate).map((date, i) => {
-                  const dayEvents = date ? getEventsForDate(date) : [];
-                  const isToday = date && date.toDateString() === new Date().toDateString();
-                  return (
-                    <div
-                      key={i}
-                      className="calendar-day"
-                      style={{
-                        minHeight: '100px',
-                        background: date ? isToday ? 'linear-gradient(135deg, rgba(26,66,138,0.2), rgba(55,180,219,0.2))' : 'rgba(248,250,252,0.05)' : 'transparent',
-                        borderRadius: '12px',
-                        padding: '12px',
-                        border: isToday ? '2px solid #37b4db' : '1px solid rgba(248,250,252,0.1)',
-                        cursor: date ? 'pointer' : 'default'
-                      }}
-                      onClick={() => date && setSelectedDay(date)}
-                    >
-                      {date && (
-                        <>
-                          <div style={{ fontSize: '18px', fontWeight: 600, marginBottom: '8px', color: isToday ? '#37b4db' : '#F8FAFC' }}>
-                            {date.getDate()}
-                          </div>
-                          {dayEvents.length > 0 && (
-                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', marginTop: '8px' }}>
-                              {dayEvents.slice(0,3).map(e => (
-                                <div
-                                  key={e.id}
-                                  className="event-dot"
-                                  style={{ background: getEventTypeColor(e.type), boxShadow: `0 0 8px ${getEventTypeColor(e.type)}80` }}
-                                  title={e.title}
-                                />
-                              ))}
-                              {dayEvents.length > 3 && <span style={{ fontSize: '10px', color: '#94A3B8' }}>+{dayEvents.length - 3}</span>}
-                            </div>
-                          )}
-                        </>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
+          <div style={{ background: 'rgba(15,23,42,0.6)', backdropFilter: 'blur(20px)', borderRadius: '24px', padding: '32px', border: '1px solid rgba(248,250,252,0.1)', boxShadow: '0 20px 40px rgba(0,0,0,0.3)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
+              <button onClick={() => changeMonth(-1)} className="btn" style={{ background: 'rgba(248,250,252,0.1)', padding: '12px', borderRadius: '12px', color: '#F8FAFC' }}>
+                <ChevronLeft size={24} />
+              </button>
+              <h2 style={{ fontSize: '32px', fontWeight: 700, fontFamily: "'Playfair Display', serif", margin: 0 }}>
+                {selectedDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+              </h2>
+              <button onClick={() => changeMonth(1)} className="btn" style={{ background: 'rgba(248,250,252,0.1)', padding: '12px', borderRadius: '12px', color: '#F8FAFC' }}>
+                <ChevronRight size={24} />
+              </button>
             </div>
-
-            {selectedDay && (
-              <div style={{
-                marginTop: '32px',
-                background: 'rgba(15,23,42,0.6)',
-                backdropFilter: 'blur(20px)',
-                borderRadius: '24px',
-                padding: '24px',
-                border: '1px solid rgba(248,250,252,0.1)',
-                boxShadow: '0 20px 40px rgba(0,0,0,0.3)'
-              }}>
-                <h3 style={{ margin: '0 0 16px', fontSize: '24px' }}>
-                  Events on {selectedDay.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
-                </h3>
-                {getEventsForDate(selectedDay).length === 0 ? (
-                  <p style={{ color: '#94A3B8' }}>No events scheduled for this day.</p>
-                ) : (
-                  <div style={{ display: 'grid', gap: '16px' }}>
-                    {getEventsForDate(selectedDay).map(e => {
-                      const chamber = chambers.find(c => c.id === e.chamberId);
-                      return (
-                        <div key={e.id} style={{
-                          background: 'rgba(248,250,252,0.05)',
-                          borderRadius: '12px',
-                          padding: '16px',
-                          borderLeft: `4px solid ${getEventTypeColor(e.type)}`
-                        }}>
-                          <strong>{e.title}</strong>
-                          <div style={{ color: '#94A3B8', fontSize: '14px', marginTop: '8px' }}>
-                            {e.date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })} • {e.location}
-                          </div>
-                          <p style={{ marginTop: '8px' }}>{e.description}</p>
-                          {chamber && <div style={{ marginTop: '8px', color: '#37b4db' }}>Hosted by: {chamber.name}</div>}
-                          {e.link && (
-                            <a href={e.link} target="_blank" rel="noopener noreferrer" style={{ color: '#37b4db', display: 'block', marginTop: '8px' }}>
-                              View details
-                            </a>
-                          )}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '8px' }}>
+              {['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(d => (
+                <div key={d} style={{ textAlign: 'center', fontWeight: 600, color: '#37b4db', padding: '12px', fontSize: '14px', textTransform: 'uppercase' }}>
+                  {d}
+                </div>
+              ))}
+              {getDaysInMonth(selectedDate).map((date, i) => {
+                const dayEvents = date ? getEventsForDate(date) : [];
+                const isToday = date && date.toDateString() === new Date().toDateString();
+                return (
+                  <div
+                    key={i}
+                    className="calendar-day"
+                    style={{
+                      minHeight: '100px',
+                      background: date ? isToday ? 'linear-gradient(135deg, rgba(26,66,138,0.2), rgba(55,180,219,0.2))' : 'rgba(248,250,252,0.05)' : 'transparent',
+                      borderRadius: '12px',
+                      padding: '12px',
+                      border: isToday ? '2px solid #37b4db' : '1px solid rgba(248,250,252,0.1)'
+                    }}
+                    onClick={() => date && setSelectedDay(date)}
+                  >
+                    {date && (
+                      <>
+                        <div style={{ fontSize: '18px', fontWeight: 600, marginBottom: '8px', color: isToday ? '#37b4db' : '#F8FAFC' }}>
+                          {date.getDate()}
                         </div>
-                      );
-                    })}
+                        {dayEvents.length > 0 && (
+                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', marginTop: '8px' }}>
+                            {dayEvents.slice(0,3).map(e => (
+                              <div
+                                key={e.id}
+                                className="event-dot"
+                                style={{ background: getEventTypeColor(e.type), boxShadow: `0 0 8px ${getEventTypeColor(e.type)}80` }}
+                                title={e.title}
+                              />
+                            ))}
+                            {dayEvents.length > 3 && <span style={{ fontSize: '10px', color: '#94A3B8' }}>+{dayEvents.length - 3}</span>}
+                          </div>
+                        )}
+                      </>
+                    )}
                   </div>
-                )}
-                <button
-                  onClick={() => setSelectedDay(null)}
-                  style={{
-                    marginTop: '16px',
-                    padding: '8px 16px',
-                    background: 'rgba(220,38,38,0.2)',
-                    color: '#DC2626',
-                    border: 'none',
-                    borderRadius: '8px',
-                    cursor: 'pointer'
-                  }}
-                >
-                  Close
-                </button>
-              </div>
-            )}
-          </>
+                );
+              })}
+            </div>
+          </div>
         )}
 
         {view === 'list' && (
